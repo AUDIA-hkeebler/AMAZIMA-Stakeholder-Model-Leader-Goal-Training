@@ -18,15 +18,15 @@
 
       --gold: #FFC844;
       --gold-dark: #E0592A;
-      --magenta: #B12028;
-      --magenta-dark: #CA3625;
+      --magenta: #E6474F;
+      --magenta-dark: #F25D3D;
       --navy-900: #0F1F3B;
       --navy-800: #172C52;
       --slate-300: #F0EADC;
       --slate-400: #CFC9BC;
       --white: #FFFFFF;
-      --line: rgba(255,255,255,0.16);
-      --brand: linear-gradient(90deg, #B12028, #FFC844);
+      --line: rgba(255,255,255,0.22);
+      --brand: linear-gradient(90deg, #E6474F, #FFC844);
 
       --photo-hero: url('https://amazima.org/wp-content/uploads/2024/07/community-engagement-fullwidth-friends-smiles.jpg');
       --photo-body: url('https://amazima.org/wp-content/uploads/2024/07/community-engagement-fullwidth-home-visits.jpg');
@@ -72,7 +72,7 @@
       position: absolute;
       inset: 0;
       z-index: -2;
-      background: linear-gradient(135deg, rgba(15,31,59,0.92), rgba(23,44,82,0.86));
+      background: linear-gradient(135deg, rgba(15,31,59,0.76), rgba(23,44,82,0.66));
     }
 
     .slide::after {
@@ -80,29 +80,35 @@
       position: absolute;
       inset: 0;
       z-index: -1;
-      opacity: 0.5;
+      opacity: 0.64;
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
     }
 
-    .slide.hero::after { background-image: var(--photo-hero); opacity: 0.45; }
-    .slide.content::after { background-image: var(--photo-body); opacity: 0.36; }
-    .slide.workshop::after { background-image: var(--photo-body); opacity: 0.28; }
+    .slide.hero::after { background-image: var(--photo-hero); opacity: 0.58; }
+    .slide.content::after { background-image: var(--photo-body); opacity: 0.5; }
+    .slide.workshop::after { background-image: var(--photo-body); opacity: 0.46; }
     .slide.close::after { background-image: none; }
 
     .slide.close::before {
       background: radial-gradient(circle at 78% 22%, rgba(255,200,68,0.18) 0%, rgba(255,200,68,0.04) 20%, transparent 45%),
-                  linear-gradient(140deg, rgba(15,31,59,0.98), rgba(23,44,82,0.94));
+                  linear-gradient(140deg, rgba(15,31,59,0.88), rgba(23,44,82,0.82));
     }
 
     .section-label {
-      font-family: var(--font-light);
-      color: var(--magenta);
+      font-family: var(--font-bold);
+      color: #FF2F45;
       text-transform: uppercase;
       letter-spacing: 0.12em;
       font-size: 0.82rem;
       margin-bottom: 12px;
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,47,69,0.52);
+      background: rgba(8,18,37,0.58);
+      text-shadow: 0 1px 0 rgba(0,0,0,0.5), 0 0 14px rgba(255,47,69,0.55);
     }
 
     .title {
@@ -153,7 +159,7 @@
     }
 
     .stat-num.gold { color: var(--gold); }
-    .stat-num.red { color: var(--magenta-dark); }
+    .stat-num.red { color: #FF2F45; }
     .stat-num.orange { color: var(--gold-dark); }
     .stat-label { color: var(--slate-400); font-size: 0.9rem; }
 
@@ -174,7 +180,7 @@
     .card {
       border: 1px solid var(--line);
       border-radius: 16px;
-      background: rgba(15,31,59,0.5);
+      background: rgba(15,31,59,0.42);
       padding: 18px 20px;
       box-shadow: 0 10px 24px rgba(7, 16, 31, 0.26);
     }
@@ -270,10 +276,44 @@
       margin-top: 14px;
       border-left: 4px solid var(--gold-dark);
       padding: 10px 12px;
-      background: rgba(15,31,59,0.45);
-      color: var(--slate-400);
+      background: rgba(15,31,59,0.3);
+      color: var(--slate-300);
       font-size: 0.9rem;
       line-height: 1.45;
+    }
+
+    .bubble {
+      cursor: pointer;
+      transition: background-color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
+    }
+
+    .bubble:hover,
+    .bubble:active,
+    .bubble.is-selected {
+      border-color: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.16);
+      box-shadow: 0 0 0 1px rgba(255,255,255,0.16), 0 12px 28px rgba(12,26,52,0.34);
+      transform: translateY(-1px);
+    }
+
+    .bubble.objective:hover,
+    .bubble.objective:active,
+    .bubble.objective.is-selected,
+    .bubble.formula:hover,
+    .bubble.formula:active,
+    .bubble.formula.is-selected,
+    .bubble.commitment:hover,
+    .bubble.commitment:active,
+    .bubble.commitment.is-selected {
+      border-color: rgba(255,200,68,0.62);
+      background: rgba(255,200,68,0.18);
+    }
+
+    .bubble.tip:hover,
+    .bubble.tip:active,
+    .bubble.tip.is-selected {
+      border-color: rgba(230,71,79,0.56);
+      background: rgba(230,71,79,0.2);
     }
 
     .topbar {
@@ -364,7 +404,7 @@
 <body>
   <div class="topbar">
     <div class="brand"><span class="accent">AMAZIMA</span> Goal Setting Leader Workshop</div>
-    <div class="pager" id="pager">SLIDE 1 / 12</div>
+    <div class="pager" id="pager">SLIDE 1 / 16</div>
   </div>
 
   <main class="deck" id="deck">
@@ -375,7 +415,7 @@
 
       <div class="hero-stats">
         <div class="stat">
-          <div class="stat-num red">120 min</div>
+          <div class="stat-num red">AMAZIMA</div>
           <div class="stat-label">Facilitated leader training</div>
         </div>
         <div class="stat">
@@ -448,13 +488,29 @@
         <div class="card vague"><h3>Vague</h3><p>“I should improve communication.”</p></div>
         <div class="card objective"><h3>Objective</h3><p>“Send weekly project status by Friday 3:00 PM for six consecutive months.”</p></div>
       </div>
-      <div class="tip"><strong>Live activity:</strong> Each leader rewrites one weak goal from their current team.</div>
-      <div class="fac-note">Facilitator prompt: “If someone else scored this goal, would they score it the same way?”</div>
     </section>
 
     <section class="slide content">
-      <div class="section-label">Slide 05 / Structure</div>
-      <h2 class="title">Balanced Goal Design: 1/3 + 1/3 + 1/3</h2>
+      <div class="section-label">Slide 05 / Practice</div>
+      <h2 class="title">GOALS practice</h2>
+      <p class="subtitle"><strong>Directions:</strong> pick two goals to rewrite. Rewrite each line with a number, timeline, evidence artifact, and ownership.</p>
+      <div class="card">
+        <h3>Rewrite These Vague Goals</h3>
+        <ol style="margin-left: 20px; display: grid; gap: 8px;">
+          <li>Improve student engagement in my classroom.</li>
+          <li>Communicate better with parents.</li>
+          <li>Support teachers more effectively this term.</li>
+          <li>Keep school operations organized.</li>
+          <li>Help students achieve better academic results.</li>
+        </ol>
+      </div>
+      <div class="tip"><strong>Leader task:</strong> Rewrite each line with a number, timeline, evidence artifact, and ownership.</div>
+      <div class="fac-note">Facilitator prompt: Ask participants to convert at least two into fully objective statements before moving on.</div>
+    </section>
+
+    <section class="slide content">
+      <div class="section-label">Slide 06 / Structure</div>
+      <h2 class="title">Balanced Goal Design: <span style="color:var(--gold);">1/3 + 1/3 + 1/3</span></h2>
       <div class="grid-3">
         <div class="card">
           <h3>Mastery of Existing Skills <span style="color:var(--gold)">(1/3)</span></h3>
@@ -473,7 +529,7 @@
     </section>
 
     <section class="slide content">
-      <div class="section-label">Slide 06 / Pillar 1</div>
+      <div class="section-label">Slide 07 / Pillar 1</div>
       <h2 class="title">Mastery of Existing Skills</h2>
       <div class="grid-2">
         <div class="card">
@@ -498,7 +554,7 @@
     </section>
 
     <section class="slide content">
-      <div class="section-label">Slide 07 / Pillar 2</div>
+      <div class="section-label">Slide 08 / Pillar 2</div>
       <h2 class="title">New Skill Development</h2>
       <div class="grid-2">
         <div class="card">
@@ -523,15 +579,17 @@
     </section>
 
     <section class="slide content">
-      <div class="section-label">Slide 08 / Pillar 3</div>
-      <h2 class="title">Culture and Character</h2>
+      <div class="section-label">Slide 09 / Pillar 3</div>
+      <h2 class="title">Culture and Character - <strong>THE AMAZIMA WAY!</strong></h2>
       <div class="grid-2">
         <div class="card">
           <h3>What This Pillar Measures</h3>
           <ul>
-            <li>Values in action, not just intent</li>
-            <li>Team cohesion and encouragement behaviors</li>
-            <li>Contribution to trust and morale</li>
+            <li><strong>S</strong> - Servant leadership</li>
+            <li><strong>C</strong> - Christ-centered focus</li>
+            <li><strong>O</strong> - Others above self</li>
+            <li><strong>P</strong> - Purpose in every step</li>
+            <li><strong>E</strong> - Excellence in execution</li>
           </ul>
         </div>
         <div class="card">
@@ -548,7 +606,28 @@
     </section>
 
     <section class="slide workshop">
-      <div class="section-label">Slide 09 / Goal Construction</div>
+      <div class="section-label">Slide 10 / Activity</div>
+      <h2 class="title">Activity Time (15 minutes)</h2>
+      <p class="subtitle"><strong>Directions:</strong> At your table, break up into group of 2 - 4. Work together to come up with one goal for each pillar. Make sure each goal includes: a number, timeline, evidence artifact, and ownership.</p>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Mastery of Existing Skills <span style="color:var(--gold)">(1/3)</span></h3>
+          <p>Improve quality, speed, consistency, and stewardship in current responsibilities.</p>
+        </div>
+        <div class="card">
+          <h3>New Skill Development <span style="color:var(--gold)">(1/3)</span></h3>
+          <p>Build future capability through learning, projects, and cross-functional growth.</p>
+        </div>
+        <div class="card">
+          <h3>Culture and Character <span style="color:var(--gold)">(1/3)</span></h3>
+          <p>Demonstrate values in visible, measurable behaviors that strengthen the team.</p>
+        </div>
+      </div>
+      <h2 class="title" style="margin-top: 16px;">SHARE (10 minutes)</h2>
+    </section>
+
+    <section class="slide workshop">
+      <div class="section-label">Slide 11 / Goal Construction</div>
       <h2 class="title">Build Objective Sub-Tasks</h2>
       <div class="formula">By <strong>[date]</strong>, I will <strong>[action + quantity]</strong>, evidenced by <strong>[artifact]</strong>, to support <strong>[team outcome]</strong>.</div>
       <div class="card">
@@ -577,7 +656,7 @@
     </section>
 
     <section class="slide workshop">
-      <div class="section-label">Slide 10 / Quality Control</div>
+      <div class="section-label">Slide 12 / Quality Control</div>
       <h2 class="title">Run the 4-Part Goal Quality Test</h2>
       <div class="check-grid">
         <div class="card"><h3>Evidence Test</h3><p>If someone claims 100% complete, can they show proof?</p></div>
@@ -590,7 +669,75 @@
     </section>
 
     <section class="slide workshop">
-      <div class="section-label">Slide 11 / Monthly Rhythm</div>
+      <div class="section-label">Slide 13 / One Goal Example</div>
+      <h2 class="title">How to Write One Goal (Completed Example)</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>Mastery (Teacher)</h3>
+          <p><strong>Owner:</strong> P4 Teacher</p>
+          <p><strong>Number:</strong> 90% lesson-plan completion</p>
+          <p><strong>Timeline:</strong> by Month 4</p>
+          <p><strong>Evidence:</strong> signed lesson-plan register</p>
+          <p style="margin-top: 10px;"><strong>Completed goal:</strong> By Month 4, the P4 Teacher will achieve 90% lesson-plan completion, evidenced by a signed lesson-plan register.</p>
+          <p style="margin-top: 8px;"><strong>Completed sub-tasks:</strong></p>
+          <p style="margin-top: 4px;"><strong>Sub-task 1:</strong> Submit lesson plans for 18 of 20 teaching weeks by Month 4, signed weekly in the register.</p>
+          <p style="margin-top: 4px;"><strong>Sub-task 2:</strong> Meet 90% completeness standard in monthly head-teacher plan reviews, evidenced by review checklist.</p>
+        </div>
+        <div class="card">
+          <h3>New Skill (Head Teacher)</h3>
+          <p><strong>Owner:</strong> Head Teacher</p>
+          <p><strong>Number:</strong> 4 teacher-observation cycles</p>
+          <p><strong>Timeline:</strong> by Month 5</p>
+          <p><strong>Evidence:</strong> observation forms + action notes</p>
+          <p style="margin-top: 10px;"><strong>Completed goal:</strong> By Month 5, the Head Teacher will complete 4 teacher-observation cycles, evidenced by observation forms and action notes.</p>
+          <p style="margin-top: 8px;"><strong>Completed sub-tasks:</strong></p>
+          <p style="margin-top: 4px;"><strong>Sub-task 1:</strong> Complete 4 classroom observations by Month 5 and file signed observation forms for each cycle.</p>
+          <p style="margin-top: 4px;"><strong>Sub-task 2:</strong> Hold feedback meeting within 3 days after each observation and submit dated action notes.</p>
+        </div>
+        <div class="card">
+          <h3>Culture (Administrator)</h3>
+          <p><strong>Owner:</strong> School Administrator</p>
+          <p><strong>Number:</strong> 2 encouragement check-ins monthly</p>
+          <p><strong>Timeline:</strong> for 6 months</p>
+          <p><strong>Evidence:</strong> dated check-in log</p>
+          <p style="margin-top: 10px;"><strong>Completed goal:</strong> For 6 months, the School Administrator will complete 2 encouragement check-ins monthly, evidenced by a dated check-in log.</p>
+          <p style="margin-top: 8px;"><strong>Completed sub-tasks:</strong></p>
+          <p style="margin-top: 4px;"><strong>Sub-task 1:</strong> Complete and date 2 encouragement check-ins each month for 6 months in the official log.</p>
+          <p style="margin-top: 4px;"><strong>Sub-task 2:</strong> Submit a monthly check-in summary to the supervisor by the 5th working day of the next month.</p>
+        </div>
+      </div>
+      <div class="tip"><strong>Quick check:</strong> If one of the four pieces is missing, the goal is not ready.</div>
+    </section>
+
+    <section class="slide workshop">
+      <div class="section-label">Slide 14 / Scoring + Evidence</div>
+      <h2 class="title">Monthly Scoring + Evidence Checklist</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>1-10 Scoring Anchors</h3>
+          <ul>
+            <li><strong>3</strong> = started, limited measurable progress</li>
+            <li><strong>5</strong> = about halfway complete with proof</li>
+            <li><strong>8</strong> = mostly complete, minor items left</li>
+            <li><strong>10</strong> = fully complete with clear evidence</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Acceptable Artifact Evidence</h3>
+          <ul>
+            <li>Attendance registers or lesson-plan books</li>
+            <li>Assessment summaries and score sheets</li>
+            <li>Parent call/SMS/WhatsApp communication logs</li>
+            <li>Signed supervision or coaching notes</li>
+            <li>Monthly report exports and dated checklists</li>
+          </ul>
+        </div>
+      </div>
+      <div class="fac-note">Ownership flow: Employee drafts + tracks evidence; Supervisor verifies score monthly.</div>
+    </section>
+
+    <section class="slide workshop">
+      <div class="section-label">Slide 15 / Monthly Rhythm</div>
       <h2 class="title">Monthly 1-10 Scoring + Check-In Calibration</h2>
       <div class="grid-2">
         <div class="card workflow">
@@ -615,7 +762,7 @@
     </section>
 
     <section class="slide close">
-      <div class="section-label">Slide 12 / Launch</div>
+      <div class="section-label">Slide 16 / Launch</div>
       <h2 class="title">7-Day Leader Action Plan + Commitments</h2>
       <div class="grid-2">
         <div class="card">
@@ -653,7 +800,25 @@
       const progressFill = document.getElementById('progressFill');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      const bubbleSelector = '.stat, .card, .tip, .formula, .workflow .step, .commitment';
+      const bubbles = Array.from(document.querySelectorAll(bubbleSelector));
       let index = 0;
+
+      bubbles.forEach((bubble) => bubble.classList.add('bubble'));
+
+      bubbles.forEach((bubble) => {
+        bubble.addEventListener('click', (e) => {
+          e.stopPropagation();
+          bubble.classList.toggle('is-selected');
+        });
+      });
+
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.bubble')) return;
+        const activeSlide = slides[index];
+        if (!activeSlide) return;
+        activeSlide.querySelectorAll('.bubble.is-selected').forEach((bubble) => bubble.classList.remove('is-selected'));
+      });
 
       function render() {
         slides.forEach((slide, i) => slide.classList.toggle('active', i === index));
