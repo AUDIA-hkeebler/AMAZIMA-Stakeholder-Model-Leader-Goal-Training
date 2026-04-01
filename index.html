@@ -10,12 +10,19 @@
       --gold: #FFC844;
       --gold-dark: #E0592A;
       --magenta: #E6474F;
+      --amazima-red: #B12028;
       --navy-900: #0F1F3B;
       --navy-800: #172C52;
       --slate-300: #F0EADC;
       --white: #FFFFFF;
       --line: rgba(255, 255, 255, 0.22);
       --brand: linear-gradient(90deg, #E6474F, #FFC844);
+
+      /* most-current deck photography set */
+      --photo-friends: url('./images/amazima-friends-smiles.jpg');
+      --photo-home-visits: url('./images/amazima-home-visits.jpg');
+      --photo-gallery: url('./images/amazima-gallery-dsc05333.jpg');
+      --photo-farming: url('./images/amazima-farming.jpg');
     }
 
     /* Font Imports */
@@ -68,10 +75,12 @@
       padding: 80px 60px 120px 60px;
       position: relative;
       overflow: hidden;
+      isolation: isolate;
     }
 
     section.slide {
       padding-top: 100px;
+      background: transparent;
     }
 
     section.slide.hero {
@@ -89,6 +98,49 @@
       padding-top: 140px;
     }
 
+    /* Background photo + overlay per slide */
+    section.slide::before,
+    section.slide::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    section.slide::before {
+      background: linear-gradient(140deg, rgba(15,31,59,0.70), rgba(23,44,82,0.62));
+      z-index: 1;
+    }
+
+    section.slide::after {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.68;
+      z-index: 0;
+    }
+
+    section.slide:nth-of-type(1)::after  { background-image: var(--photo-friends); background-position: center 28%; opacity: 0.72; }
+    section.slide:nth-of-type(2)::after  { background-image: var(--photo-home-visits); background-position: center 35%; }
+    section.slide:nth-of-type(3)::after  { background-image: var(--photo-gallery); background-position: center 34%; }
+    section.slide:nth-of-type(4)::after  { background-image: var(--photo-friends); background-position: center 30%; }
+    section.slide:nth-of-type(5)::after  { background-image: var(--photo-home-visits); background-position: center 38%; }
+    section.slide:nth-of-type(6)::after  { background-image: var(--photo-gallery); background-position: center 32%; }
+    section.slide:nth-of-type(7)::after  { background-image: var(--photo-friends); background-position: center 30%; }
+    section.slide:nth-of-type(8)::after  { background-image: var(--photo-home-visits); background-position: center 36%; }
+    section.slide:nth-of-type(9)::after  { background-image: var(--photo-gallery); background-position: center 30%; }
+    section.slide:nth-of-type(10)::after { background-image: var(--photo-farming); background-position: center 34%; }
+    section.slide:nth-of-type(11)::after { background-image: var(--photo-home-visits); background-position: center 37%; }
+    section.slide:nth-of-type(12)::after { background-image: var(--photo-friends); background-position: center 30%; }
+    section.slide:nth-of-type(13)::after { background-image: var(--photo-gallery); background-position: center 32%; }
+    section.slide:nth-of-type(14)::after { background-image: var(--photo-farming); background-position: center 36%; }
+
+    section > * {
+      position: relative;
+      z-index: 2;
+    }
+
     /* Fixed Header Elements */
     .fixed-header-left {
       position: fixed;
@@ -102,9 +154,12 @@
     }
 
     .fixed-header-left .amazima {
-      font-weight: bold;
-      font-size: 13px;
-      letter-spacing: 1px;
+      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
+      font-weight: 900;
+      font-size: 30px;
+      letter-spacing: 1.6px;
+      color: var(--amazima-red);
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
     }
 
     .fixed-header-left .workshop-label {
@@ -133,6 +188,12 @@
       color: var(--gold);
       margin-bottom: 20px;
       font-weight: bold;
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: rgba(8, 18, 36, 0.62);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      backdrop-filter: blur(4px);
     }
 
     /* Titles */
@@ -153,10 +214,13 @@
     }
 
     h3 {
-      font-size: 18px;
+      font-size: 22px;
       font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
-      font-weight: bold;
+      font-weight: 900;
       margin-bottom: 12px;
+      color: var(--white);
+      letter-spacing: 0.2px;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
     }
 
     /* Accent Script */
@@ -182,10 +246,28 @@
       border-radius: 12px;
       padding: 28px;
       margin-bottom: 20px;
+      transition: transform 0.26s ease, background-color 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease, filter 0.26s ease;
     }
 
     .card h3 {
       margin-bottom: 16px;
+      font-size: clamp(24px, 1.9vw, 34px);
+      line-height: 1.2;
+      letter-spacing: 0.25px;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.32);
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .card h3::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 78px;
+      height: 3px;
+      border-radius: 99px;
+      background: linear-gradient(90deg, rgba(255, 200, 68, 0.95), rgba(224, 89, 42, 0.9));
     }
 
     .card ul, .card ol {
@@ -208,13 +290,28 @@
       min-height: 160px;
     }
 
+    .bubble:hover,
+    .card:hover,
+    .compare-vague:hover,
+    .compare-objective:hover,
+    .tip:hover {
+      transform: translateY(-6px) scale(1.02);
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.45);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.30), 0 0 0 1px rgba(255, 200, 68, 0.25) inset;
+      filter: brightness(1.12) saturate(1.08);
+    }
+
     .bubble-title {
-      font-size: 14px;
+      font-size: 23px;
       letter-spacing: 1px;
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 12px;
-      font-weight: bold;
+      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
+      font-weight: 900;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+      line-height: 1.15;
     }
 
     .bubble-value {
@@ -236,6 +333,23 @@
       line-height: 1.6;
     }
 
+    .key-takeaway {
+      margin-top: 12px;
+      padding: 14px 18px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(8, 18, 36, 0.56);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .key-takeaway strong {
+      color: var(--gold);
+      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
+      letter-spacing: 0.2px;
+      margin-right: 6px;
+    }
+
     /* Facilitator Notes */
     .facilitator-note {
       margin-top: 40px;
@@ -245,6 +359,38 @@
       font-style: italic;
       opacity: 0.8;
       line-height: 1.6;
+    }
+
+    /* Slide-specific spacing tune */
+    .slide-practice .subtitle {
+      margin-bottom: 16px;
+    }
+
+    .slide-practice .card {
+      margin-bottom: 12px;
+      padding: 22px 24px;
+    }
+
+    .slide-practice .card li {
+      margin-bottom: 8px;
+      line-height: 1.45;
+    }
+
+    .slide-practice .tip {
+      margin: 12px 0 8px;
+      padding: 14px 18px;
+      font-size: 14px;
+    }
+
+    .slide-practice .key-takeaway {
+      margin-top: 6px;
+    }
+
+    .slide-practice .facilitator-note {
+      margin-top: 16px;
+      padding-top: 12px;
+      font-size: 12px;
+      line-height: 1.5;
     }
 
     /* Grids */
@@ -278,19 +424,21 @@
     }
 
     .compare-vague {
-      background: rgba(230, 71, 79, 0.08);
+      background: rgba(255, 200, 68, 0.10);
       border: 1px solid var(--line);
-      border-top: 3px solid var(--magenta);
+      border-top: 3px solid var(--gold);
       border-radius: 8px;
       padding: 20px;
+      transition: transform 0.26s ease, background-color 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease, filter 0.26s ease;
     }
 
     .compare-objective {
-      background: rgba(76, 175, 80, 0.08);
+      background: rgba(224, 89, 42, 0.10);
       border: 1px solid var(--line);
-      border-top: 3px solid #4CAF50;
+      border-top: 3px solid var(--gold-dark);
       border-radius: 8px;
       padding: 20px;
+      transition: transform 0.26s ease, background-color 0.26s ease, border-color 0.26s ease, box-shadow 0.26s ease, filter 0.26s ease;
     }
 
     .compare-label {
@@ -338,6 +486,12 @@
       color: var(--navy-900);
     }
 
+    .nav-btn:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 4px rgba(255, 200, 68, 0.45);
+    }
+
     /* Progress Bar */
     .progress-bar {
       position: fixed;
@@ -370,6 +524,17 @@
 
       section {
         padding: 60px 40px 120px 40px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html, body {
+        scroll-behavior: auto;
+      }
+
+      *, *::before, *::after {
+        transition: none !important;
+        animation: none !important;
       }
     }
 
@@ -432,6 +597,22 @@
       margin-right: 12px;
       color: var(--gold);
     }
+
+    .scope-letter {
+      display: inline-block;
+      min-width: 1ch;
+      color: var(--gold);
+      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
+      font-weight: 900;
+      font-size: 1.18em;
+      letter-spacing: 0.4px;
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.35), 0 0 8px rgba(255, 200, 68, 0.2);
+    }
+
+    .scope-list li:before {
+      content: "";
+      margin-right: 0;
+    }
   </style>
 </head>
 <body>
@@ -449,8 +630,8 @@
 
   <!-- Navigation Controls -->
   <div class="nav-controls">
-    <button class="nav-btn" id="prev-btn" onclick="prevSlide()">‹</button>
-    <button class="nav-btn" id="next-btn" onclick="nextSlide()">›</button>
+    <button class="nav-btn" id="prev-btn" onclick="prevSlide()" aria-label="Previous slide">&#8249;</button>
+    <button class="nav-btn" id="next-btn" onclick="nextSlide()" aria-label="Next slide">&#8250;</button>
   </div>
 
   <!-- Progress Bar -->
@@ -481,7 +662,7 @@
   </section>
 
   <!-- SLIDE 2: Foundation -->
-  <section class="slide content">
+  <section class="slide content slide-practice">
     <div class="section-label">Slide 02 / Foundation</div>
     <h2>Why Most Review Systems Fail</h2>
 
@@ -508,6 +689,7 @@
     </div>
 
     <div class="tip">Bottom line: If you cannot measure an objective monthly, you cannot coach it fairly.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Clarity is the starting point for fair coaching and consistent scoring.</div>
 
     <div class="facilitator-note">Facilitator prompt: "Which failure point is most common in your team right now?"</div>
   </section>
@@ -534,6 +716,7 @@
     </div>
 
     <div class="tip">Guideline: No number + no evidence = not ready.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Every strong objective includes a number, timeline, and proof artifact.</div>
 
     <div class="facilitator-note">Facilitator prompt: Ask leaders to name valid evidence examples for 3 real roles.</div>
   </section>
@@ -580,8 +763,8 @@
   <!-- SLIDE 5: Practice -->
   <section class="slide content">
     <div class="section-label">Slide 05 / Practice</div>
-    <h2>OBJECTIVES practice</h2>
-    <p class="subtitle">Directions: pick two statements to rewrite as supporting objectives. Rewrite each line with a number, the sprint timeline, and clear evidence.</p>
+    <h2>Objectives Practice</h2>
+    <p class="subtitle">Pick two statements and rewrite them using a number, sprint timeline, and clear evidence.</p>
 
     <div class="card">
       <h3>Rewrite These Vague Statements</h3>
@@ -595,8 +778,9 @@
     </div>
 
     <div class="tip">Leader task: Rewrite each line as a supporting objective with a number, sprint timeline, and evidence.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> If others cannot verify completion, the objective still needs revision.</div>
 
-    <div class="facilitator-note">Facilitator prompt: Ask participants to convert at least two into fully objective statements before moving on.</div>
+    <div class="facilitator-note">Facilitator prompt: Ask each participant to read one rewrite aloud and identify the exact evidence source (log, file, tracker, checklist, or date-stamped note).</div>
   </section>
 
   <!-- SLIDE 6: Primary Objective 1 - NSD -->
@@ -624,6 +808,7 @@
     </div>
 
     <div class="tip">Check question: Will this supporting objective increase future role readiness in a visible way?</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> New-skill objectives should produce visible readiness for expanded responsibility.</div>
 
     <div class="facilitator-note">Facilitator prompt: "What evidence proves the new skill was applied, not just attended?"</div>
   </section>
@@ -653,6 +838,7 @@
     </div>
 
     <div class="tip">Check question: Is this supporting objective tied to a current-role KPI?</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Mastery objectives should improve current-role performance that can be tracked monthly.</div>
 
     <div class="facilitator-note">Facilitator prompt: "What current KPI most needs improvement for this role?"</div>
   </section>
@@ -660,17 +846,17 @@
   <!-- SLIDE 8: Primary Objective 3 - C&C -->
   <section class="slide content">
     <div class="section-label">Slide 08 / Primary Objective 3</div>
-    <h2>Culture & Character | <span class="accent-script">THE AMAZIMA WAY!</span></h2>
+    <h2>Culture &amp; Character | <span class="accent-script">THE AMAZIMA WAY!</span></h2>
 
     <div class="grid-2">
       <div class="card">
         <h3>What This Primary Objective Measures</h3>
-        <ul class="dash-list">
-          <li>Servant leadership</li>
-          <li>Christ-centered focus</li>
-          <li>Others above self</li>
-          <li>Purpose in every step</li>
-          <li>Excellence in execution</li>
+        <ul class="dash-list scope-list">
+          <li><span class="scope-letter">S</span>ervant leadership</li>
+          <li><span class="scope-letter">C</span>hrist-centered focus</li>
+          <li><span class="scope-letter">O</span>thers above self</li>
+          <li><span class="scope-letter">P</span>urpose in every step</li>
+          <li><span class="scope-letter">E</span>xcellence in execution</li>
         </ul>
       </div>
       <div class="card">
@@ -684,6 +870,7 @@
     </div>
 
     <div class="tip">Check question: Can this behavior be counted and evidenced each month?</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Culture and character are measurable when behaviors are specific and countable.</div>
 
     <div class="facilitator-note">Facilitator reminder: Culture supporting objectives still require number + timeline + evidence.</div>
   </section>
@@ -692,7 +879,7 @@
   <section class="slide workshop">
     <div class="section-label">Slide 09 / Activity</div>
     <h2>Activity Time (15 minutes)</h2>
-    <p class="subtitle">Directions: At your table, break up into a group of 2 or 3 max. Work together to come up with one supporting objective for each primary objective for each person and their specific role. Make sure each supporting objective includes: a number, the sprint timeline, and clear evidence that will show that the supporting objective was completed at the end of the sprint.</p>
+    <p class="subtitle">Work in groups of 2-3. Write one supporting objective per primary objective for each role at your table.</p>
 
     <div class="grid-3">
       <div class="card">
@@ -704,19 +891,22 @@
         <p>Improve quality, speed, consistency, and stewardship in current responsibilities.</p>
       </div>
       <div class="card">
-        <h3>Culture & Character (1/3)</h3>
+        <h3>Culture &amp; Character (1/3)</h3>
         <p>Demonstrate values in visible, measurable behaviors that strengthen the team.</p>
       </div>
     </div>
 
-    <h3 class="mt-40">SHARE (10 minutes)</h3>
+    <div class="tip">Required in every objective: 1 number, 1 sprint timeline, and 1 clear evidence source.</div>
+
+    <h3 class="mt-40">Share (10 minutes)</h3>
+    <div class="facilitator-note">Facilitator prompt: Have each group present one objective and quickly test it for number, timeline, and evidence before feedback.</div>
   </section>
 
   <!-- SLIDE 10: Strategic Actions -->
   <section class="slide content">
     <div class="section-label">Slide 10 / Strategic Actions</div>
     <h2>What a Strategic Action Looks Like</h2>
-    <p class="subtitle">Strategic actions are the real-world activities employees do each month. They are NOT pre-planned. They emerge through monthly supervisor conversations.</p>
+    <p class="subtitle">Strategic actions are monthly actions that move an objective forward and can be verified.</p>
 
     <div class="card">
       <p style="font-style: italic;">This month, I did <span class="formula-part">[action + quantity]</span>, evidenced by <span class="formula-part">[artifact]</span>, to support <span class="formula-part">[progress toward this specific supporting objective]</span>.</p>
@@ -727,9 +917,10 @@
       <p>This month, I submitted 12 weekly check-in reports with 100% on-time delivery, evidenced by the submission log, to support reporting accuracy and leadership visibility.</p>
     </div>
 
-    <div class="tip">Key point: Strategic actions develop month by month through coaching conversations. Employees do not need to pre-plan all actions before the sprint begins.</div>
+    <div class="tip">Strategic actions evolve monthly through coaching; they do not need to be fully pre-planned on day one.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Objective stays stable for the sprint, while strategic actions adapt month by month.</div>
 
-    <div class="facilitator-note">Facilitator prompt: "Can someone outside this team verify completion from the evidence alone?"</div>
+    <div class="facilitator-note">Facilitator prompt: "Can someone outside this team verify completion from the evidence alone?" If not, adjust the action statement until proof is obvious.</div>
   </section>
 
   <!-- SLIDE 11: Quality Guidelines -->
@@ -753,6 +944,7 @@
     </div>
 
     <div class="tip">Peer-review activity: Swap supporting objective drafts with an individual that was not in your initial group, and provide suggested revisions, if necessary, for your colleague. Try to help them be clearer if possible.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Peer review improves objective quality before check-ins begin.</div>
 
     <div class="facilitator-note">Facilitator prompt: "Any supporting objective that cannot be evidenced is not ready."</div>
   </section>
@@ -766,10 +958,10 @@
       <div class="card">
         <h3>Check-In Flow</h3>
         <ol class="numbered-flow">
-          <li>Employee self-rates each supporting objective (1-10).</li>
-          <li>Employee presents evidence artifacts.</li>
-          <li>Supervisor affirms or redirects objectively.</li>
-          <li>Agree next-month actions and support.</li>
+          <li>Employee self-rates each objective (1-10).</li>
+          <li>Employee shows evidence.</li>
+          <li>Supervisor affirms or redirects.</li>
+          <li>Agree next-month actions.</li>
         </ol>
       </div>
       <div class="card">
@@ -777,14 +969,15 @@
         <p>If roughly half of measurable work is complete, score should be near 5, not 8 or 9.</p>
         <h3 style="margin-top: 16px;">Practice Scenario</h3>
         <ul>
-          <li>Supporting objective requires 6 completed client follow-ups by month-end.</li>
-          <li>Employee completed 3 with evidence logs.</li>
-          <li>Discuss: appropriate score and coaching response.</li>
+          <li>Objective target: 6 client follow-ups this month.</li>
+          <li>Completed: 3 with logs.</li>
+          <li>Discuss score and coaching response.</li>
         </ul>
       </div>
     </div>
 
-    <div class="facilitator-note">Facilitator prompt: "What evidence would justify moving a score by +2 points?"</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Monthly calibration keeps scoring fair and coaching predictable.</div>
+    <div class="facilitator-note">Facilitator prompt: "What evidence would justify moving a score by +2 points?" If evidence is weak, hold the score and refine next actions.</div>
   </section>
 
   <!-- SLIDE 13: Scoring + Evidence -->
@@ -815,6 +1008,7 @@
     </div>
 
     <div class="tip">Ownership flow: Employee drafts + tracks evidence; Supervisor verifies score monthly.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Shared ownership works best when evidence is simple, visible, and consistently reviewed.</div>
   </section>
 
   <!-- SLIDE 14: Launch -->
@@ -832,6 +1026,7 @@
         <li>Share completion status with leadership/HR.</li>
       </ul>
     </div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Consistent execution in the first 60 days determines long-term adoption quality.</div>
   </section>
 
   <script>
