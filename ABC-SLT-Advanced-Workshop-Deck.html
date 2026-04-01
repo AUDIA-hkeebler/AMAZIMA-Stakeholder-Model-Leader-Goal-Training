@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ABC DFW SLT Advanced Team Workshop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --navy-900: #081a3a;
+      --navy-800: #102a58;
+      --navy-700: #1b3f7a;
+      --amber-500: #f4b942;
+      --amber-400: #ffd36f;
+      --coral-500: #e15b3f;
+      --red-700: #b12028;
+      --mist-100: #f3efe6;
+      --mist-300: #d8d3c8;
+      --white: #ffffff;
+      --radius: 22px;
+      --shadow: 0 18px 48px rgba(3, 11, 27, 0.35);
+    }
+
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; }
+    body {
+      font-family: "DM Sans", "Trebuchet MS", sans-serif;
+      background: radial-gradient(circle at 20% 10%, #1e427f 0%, #081a3a 50%, #07142d 100%);
+      color: var(--mist-100);
+      overflow: hidden;
+    }
+
+    .deck {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      isolation: isolate;
+    }
+
+    .deck::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
+      background-size: 30px 30px;
+      opacity: .45;
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    .topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 26px;
+      background: linear-gradient(180deg, rgba(4,12,31,.88), rgba(4,12,31,.3));
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      z-index: 50;
+      backdrop-filter: blur(10px);
+    }
+
+    .brand {
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--mist-100);
+    }
+
+    .brand b { color: var(--amber-500); }
+
+    .slide-counter {
+      color: var(--mist-300);
+      font-size: .95rem;
+      font-weight: 500;
+    }
+
+    .slides {
+      height: 100%;
+      width: 100%;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 18px;
+      padding: 82px 56px 78px;
+      opacity: 0;
+      transform: translateX(20px) scale(.992);
+      pointer-events: none;
+      transition: opacity .32s ease, transform .32s ease;
+      background:
+        linear-gradient(130deg, rgba(8,26,58,.78), rgba(16,42,88,.74)),
+        radial-gradient(circle at 80% 20%, rgba(244,185,66,.14), transparent 40%),
+        radial-gradient(circle at 10% 80%, rgba(225,91,63,.14), transparent 44%);
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .kicker {
+      text-transform: uppercase;
+      letter-spacing: .18em;
+      font-size: .75rem;
+      color: var(--amber-400);
+      font-weight: 700;
+    }
+
+    h1, h2 {
+      font-family: "Fraunces", Georgia, serif;
+      margin: 0;
+      line-height: 1.1;
+      letter-spacing: .01em;
+      color: var(--white);
+    }
+
+    h1 { font-size: clamp(2.2rem, 4.8vw, 4rem); }
+    h2 { font-size: clamp(1.7rem, 3.1vw, 2.8rem); }
+
+    .subtitle {
+      margin-top: 10px;
+      max-width: 76ch;
+      font-size: 1.16rem;
+      color: var(--mist-100);
+      line-height: 1.75;
+    }
+
+    .content {
+      align-self: center;
+      display: grid;
+      gap: 16px;
+    }
+
+    .bullets {
+      margin: 10px 0 0;
+      padding: 0;
+      list-style: none;
+      max-width: 84ch;
+      display: grid;
+      gap: 12px;
+    }
+
+    .bullets li {
+      position: relative;
+      padding: 14px 16px 14px 46px;
+      border: 1px solid rgba(255,255,255,.16);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+      line-height: 1.6;
+      color: var(--mist-100);
+    }
+
+    .bullets li::before {
+      content: "";
+      position: absolute;
+      left: 16px;
+      top: 16px;
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      background: linear-gradient(135deg, var(--amber-500), var(--coral-500));
+      box-shadow: 0 0 0 2px rgba(255,255,255,.12);
+    }
+
+    .prompt {
+      margin-top: 10px;
+      border-left: 4px solid var(--amber-500);
+      background: rgba(244,185,66,.09);
+      border-radius: 12px;
+      padding: 14px 16px;
+      max-width: 84ch;
+      color: var(--mist-100);
+      line-height: 1.6;
+    }
+
+    .prompt b { color: var(--amber-400); }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      align-items: start;
+    }
+
+    .card {
+      padding: 16px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.05);
+      box-shadow: var(--shadow);
+    }
+
+    .footer-note {
+      color: var(--mist-300);
+      font-size: .92rem;
+      letter-spacing: .01em;
+    }
+
+    .controls {
+      position: absolute;
+      right: 24px;
+      bottom: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 60;
+    }
+
+    .btn {
+      border: 1px solid rgba(255,255,255,.2);
+      background: rgba(255,255,255,.08);
+      color: var(--white);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn:hover { background: rgba(255,255,255,.16); }
+    .btn:disabled { opacity: .4; cursor: default; }
+
+    .hint {
+      position: absolute;
+      left: 24px;
+      bottom: 24px;
+      color: var(--mist-300);
+      font-size: .85rem;
+      z-index: 60;
+    }
+
+    @media (max-width: 920px) {
+      .slide { padding: 82px 20px 88px; overflow: auto; }
+      .two-col { grid-template-columns: 1fr; }
+      .topbar { padding: 12px 14px; }
+      .hint { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck" id="deck">
+    <header class="topbar">
+      <div class="brand"><b>ABC</b> Home & Commercial Services · DFW SLT</div>
+      <div class="slide-counter" id="counter">1 / 18</div>
+    </header>
+
+    <main class="slides" id="slides">
+      <section class="slide active">
+        <div>
+          <div class="kicker">Slide 1</div>
+          <h1>ABC DFW SLT Advanced Team Workshop</h1>
+          <p class="subtitle">Building a high-trust, high-performance Senior Leadership Team for faster decisions, stronger alignment, and higher-quality execution.</p>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>ABC Home & Commercial Services · Dallas-Fort Worth</li>
+            <li>Facilitated leadership development session</li>
+            <li>Date / attendees / facilitator</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> In one sentence, what must be better 90 days from now?</div>
+        </div>
+        <div class="footer-note">Senior Leadership Team Alignment</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 2</div>
+          <h2>Outcomes We Will Achieve Today</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Improve SLT communication across behavioral styles.</li>
+            <li>Reduce leadership friction in cross-functional decisions.</li>
+            <li>Leave with a 30-60-90 day operating plan.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Which outcome matters most for your role right now?</div>
+        </div>
+        <div class="footer-note">Target: Practical change, not just discussion</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 3</div>
+          <h2>Why This Matters for ABC Right Now</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Growth and complexity increase leadership handoff risk.</li>
+            <li>Misalignment at SLT level creates downstream execution cost.</li>
+            <li>Stronger leadership alignment increases speed, quality, and accountability.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Where is leadership friction costing us most today?</div>
+        </div>
+        <div class="footer-note">Make the invisible cost visible</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 4</div>
+          <h2>Ground Rules for Productive Dialogue</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Assume positive intent.</li>
+            <li>Speak with clarity, not caution.</li>
+            <li>Disagree directly, align publicly.</li>
+            <li>Focus on system fixes, not personality blame.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What one behavior would make this room safer and sharper?</div>
+        </div>
+        <div class="footer-note">Culture is built one conversation at a time</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 5</div>
+          <h2>Behavioral Awareness Refresher</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Style is preference, not permission.</li>
+            <li>Under pressure, strengths can overextend into liabilities.</li>
+            <li>Awareness increases choice and leadership effectiveness.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What is one overused strength you need to manage better?</div>
+        </div>
+        <div class="footer-note">Self-awareness precedes team-awareness</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 6</div>
+          <h2>The Four Style Patterns in Leadership Context</h2>
+        </div>
+        <div class="content two-col">
+          <div class="card">
+            <ul class="bullets">
+              <li>Direct / Driver: speed, outcomes, decisiveness.</li>
+              <li>Influencing / Promoter: energy, persuasion, momentum.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <ul class="bullets">
+              <li>Steady / Supportive: consistency, care, follow-through.</li>
+              <li>Analytical / Controller: precision, structure, risk management.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-note">Leadership range is a strategic advantage</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 7</div>
+          <h2>My Style Under Pressure</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Triggers: what causes reactive behavior.</li>
+            <li>Tells: how your team experiences your stress pattern.</li>
+            <li>Recovery: how you reset quickly and lead intentionally.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Finish this sentence: “Under pressure, I tend to…”</div>
+        </div>
+        <div class="footer-note">Name the pattern to manage the pattern</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 8</div>
+          <h2>Team Style Map of the SLT</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Where we are balanced.</li>
+            <li>Where we are underrepresented.</li>
+            <li>What blind spots this may create in decisions.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What perspective is most likely missing in our big decisions?</div>
+        </div>
+        <div class="footer-note">Balance beats dominance</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 9</div>
+          <h2>Communication Rules by Style</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>With Drivers: lead with decision, timeline, ownership.</li>
+            <li>With Influencers: connect to vision, people, and momentum.</li>
+            <li>With Steady styles: clarify impact, expectations, support.</li>
+            <li>With Analytical styles: provide data, assumptions, and risk logic.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What one communication adjustment will you make this week?</div>
+        </div>
+        <div class="footer-note">Adapt your delivery, not your values</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 10</div>
+          <h2>ABC Decision Friction Points</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Sales promise vs operations capacity.</li>
+            <li>Service quality vs route efficiency.</li>
+            <li>Urgent staffing vs long-term talent health.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Pick the most painful friction point and name the root cause.</div>
+        </div>
+        <div class="footer-note">Specific friction creates specific solutions</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 11</div>
+          <h2>Case Study 1: Service Delivery Conflict</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Scenario: urgent customer commitment with limited capacity.</li>
+            <li>Tension: short-term win vs system reliability.</li>
+            <li>Goal: align decision ownership, trade-offs, and communication.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What decision should be made, by whom, and by when?</div>
+        </div>
+        <div class="footer-note">Real-time decision discipline</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 12</div>
+          <h2>Case Study 2: Leadership Alignment Breakdown</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Scenario: cross-functional disagreement escalates to teams.</li>
+            <li>Tension: speed vs inclusiveness vs quality.</li>
+            <li>Goal: model aligned leadership behavior under tension.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What should have happened in the room before escalation?</div>
+        </div>
+        <div class="footer-note">Alignment is a leadership responsibility</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 13</div>
+          <h2>From Insight to Team Commitments</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Define the 3 leadership behaviors we will standardize.</li>
+            <li>Define the 3 behaviors we will stop immediately.</li>
+            <li>Define how we will hold each other accountable.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Vote on the top 3 commitments we adopt today.</div>
+        </div>
+        <div class="footer-note">Commitments become culture</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 14</div>
+          <h2>SLT Operating Commitments (Draft)</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>We clarify decision owner before debate begins.</li>
+            <li>We define success criteria before execution starts.</li>
+            <li>We close conflict with one clear next action and owner.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What wording changes make these commitments executable?</div>
+        </div>
+        <div class="footer-note">Write commitments like operating procedures</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 15</div>
+          <h2>Meeting Rhythm and Accountability Cadence</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Weekly: tactical alignment and blockers.</li>
+            <li>Monthly: strategic review and cross-functional risks.</li>
+            <li>Quarterly: leadership behavior and team health reset.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What cadence change would immediately improve execution?</div>
+        </div>
+        <div class="footer-note">Cadence protects priorities</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 16</div>
+          <h2>30-60-90 Day Action Plan</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>30 days: implement communication and decision protocols.</li>
+            <li>60 days: measure impact on speed, quality, and escalation volume.</li>
+            <li>90 days: reinforce wins and adjust weak points.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> What is one commitment you personally own in 30 days?</div>
+        </div>
+        <div class="footer-note">Execution starts immediately</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 17</div>
+          <h2>Scorecard: How We’ll Know This Worked</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Decision cycle time.</li>
+            <li>Cross-functional rework and escalation count.</li>
+            <li>Team trust and clarity pulse score.</li>
+            <li>Execution reliability by function.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> Which metric should be reviewed first in every SLT meeting?</div>
+        </div>
+        <div class="footer-note">Measure what you expect to improve</div>
+      </section>
+
+      <section class="slide">
+        <div>
+          <div class="kicker">Slide 18</div>
+          <h2>Closing Commitments and Next Checkpoint</h2>
+        </div>
+        <div class="content">
+          <ul class="bullets">
+            <li>Top 3 SLT commitments confirmed.</li>
+            <li>Owners assigned and due dates set.</li>
+            <li>Next review date scheduled.</li>
+            <li>Success metrics agreed.</li>
+          </ul>
+          <div class="prompt"><b>Activity Prompt:</b> State your commitment in one sentence: “I will… by…”</div>
+        </div>
+        <div class="footer-note">Leave with alignment and ownership</div>
+      </section>
+    </main>
+
+    <div class="hint">Use ← and → keys or on-screen controls</div>
+    <div class="controls">
+      <button class="btn" id="prevBtn">Previous</button>
+      <button class="btn" id="nextBtn">Next</button>
+    </div>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    const counter = document.getElementById('counter');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    let index = 0;
+
+    function render() {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+      counter.textContent = `${index + 1} / ${slides.length}`;
+      prevBtn.disabled = index === 0;
+      nextBtn.disabled = index === slides.length - 1;
+    }
+
+    function next() { if (index < slides.length - 1) { index++; render(); } }
+    function prev() { if (index > 0) { index--; render(); } }
+
+    nextBtn.addEventListener('click', next);
+    prevBtn.addEventListener('click', prev);
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') next();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prev();
+      if (e.key === 'Home') { index = 0; render(); }
+      if (e.key === 'End') { index = slides.length - 1; render(); }
+    });
+
+    render();
+  </script>
+</body>
+</html>
