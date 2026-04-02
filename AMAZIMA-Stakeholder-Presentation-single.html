@@ -125,7 +125,7 @@
     }
 
     section.slide::before {
-      background: linear-gradient(140deg, rgba(15,31,59,0.70), rgba(23,44,82,0.62));
+      background: linear-gradient(140deg, rgba(15,31,59,0.56), rgba(23,44,82,0.44));
       z-index: 1;
     }
 
@@ -133,11 +133,11 @@
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      opacity: 0.68;
+      opacity: 0.78;
       z-index: 0;
     }
 
-    section.slide:nth-of-type(1)::after  { background-image: var(--photo-friends); background-position: center 28%; opacity: 0.72; }
+    section.slide:nth-of-type(1)::after  { background-image: var(--photo-friends); background-position: center 28%; opacity: 0.82; }
     section.slide:nth-of-type(2)::after  { background-image: var(--photo-home-visits); background-position: center 35%; }
     section.slide:nth-of-type(3)::after  { background-image: var(--photo-gallery); background-position: center 34%; }
     section.slide:nth-of-type(4)::after  { background-image: var(--photo-friends); background-position: center 30%; }
@@ -194,6 +194,57 @@
       text-transform: uppercase;
       z-index: 100;
       opacity: 0.8;
+    }
+
+    .worksheets-btn {
+      position: fixed;
+      top: 24px;
+      right: 140px;
+      z-index: 100;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 9px 14px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 200, 68, 0.9);
+      background: rgba(8, 18, 36, 0.78);
+      color: var(--gold);
+      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
+      font-weight: 800;
+      font-size: 11px;
+      letter-spacing: 0.9px;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .worksheets-btn:hover {
+      background: var(--gold);
+      color: var(--navy-900);
+      transform: translateY(-1px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    .worksheets-btn:focus-visible {
+      outline: 3px solid rgba(255, 255, 255, 0.95);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 4px rgba(255, 200, 68, 0.45);
+    }
+
+    .worksheets-btn.is-index {
+      border-color: rgba(255, 255, 255, 0.55);
+      color: #ffffff;
+      background: rgba(8, 18, 36, 0.62);
+    }
+
+    .worksheets-btn.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
     }
 
     /* Section Label */
@@ -580,6 +631,18 @@
       section {
         padding: 60px 40px 120px 40px;
       }
+
+      .slide-counter {
+        top: 20px;
+        right: 20px;
+      }
+
+      .worksheets-btn {
+        top: 14px;
+        right: 120px;
+        padding: 7px 10px;
+        font-size: 10px;
+      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -686,6 +749,8 @@
   <div class="slide-counter">
     <span id="current-slide">1</span> / <span id="total-slides">14</span>
   </div>
+
+  <a class="worksheets-btn" id="worksheets-btn" href="./worksheets/" aria-label="Open workshop worksheets">Worksheet</a>
 
   <!-- Navigation Controls -->
   <div class="nav-controls">
@@ -830,11 +895,11 @@
     <div class="card">
       <h3>Rewrite These Vague Statements</h3>
       <ul>
+        <li>I want to be more helpful to the team.</li>
+        <li>I will learn more about budgeting.</li>
+        <li>I should improve communication.</li>
         <li>Improve student engagement in my classroom.</li>
         <li>Communicate better with parents.</li>
-        <li>Support teachers more effectively this term.</li>
-        <li>Keep school operations organized.</li>
-        <li>Help students achieve better academic results.</li>
       </ul>
     </div>
 
@@ -1095,8 +1160,16 @@
   <script>
     const deck = document.getElementById('deck');
     const sections = Array.from(deck.querySelectorAll('section'));
+    const worksheetsBtn = document.getElementById('worksheets-btn');
     const totalSlides = sections.length;
     let currentSlide = 1;
+    const worksheetMap = {
+      5: './worksheets/slide-05-objectives-practice-worksheet.html',
+      9: './worksheets/slide-09-group-objective-design-worksheet.html',
+      11: './worksheets/slide-11-peer-review-worksheet.html',
+      12: './worksheets/slide-12-scoring-calibration-worksheet.html',
+      14: './worksheets/slide-14-60-day-action-plan-worksheet.html'
+    };
 
     // Set total slides
     document.getElementById('total-slides').textContent = totalSlides;
@@ -1116,6 +1189,12 @@
       observer.observe(section);
     });
 
+    function goToSlide(slideNumber, smooth = true) {
+      const n = Number(slideNumber);
+      if (!Number.isFinite(n) || n < 1 || n > totalSlides) return;
+      sections[n - 1].scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
+    }
+
     function updateUI() {
       // Update counter
       document.getElementById('current-slide').textContent = currentSlide;
@@ -1127,17 +1206,35 @@
       // Update button states
       document.getElementById('prev-btn').disabled = currentSlide === 1;
       document.getElementById('next-btn').disabled = currentSlide === totalSlides;
+
+      // Update worksheet button to match current slide activity
+      const worksheetHref = worksheetMap[currentSlide];
+      if (worksheetHref) {
+        worksheetsBtn.href = worksheetHref;
+        worksheetsBtn.textContent = 'Worksheet';
+        worksheetsBtn.classList.remove('is-index');
+        worksheetsBtn.classList.add('is-visible');
+        worksheetsBtn.setAttribute('aria-label', `Open worksheet for slide ${currentSlide}`);
+        worksheetsBtn.title = `Open worksheet for slide ${currentSlide}`;
+      } else {
+        worksheetsBtn.href = './worksheets/';
+        worksheetsBtn.textContent = 'Worksheet';
+        worksheetsBtn.classList.remove('is-index');
+        worksheetsBtn.classList.remove('is-visible');
+        worksheetsBtn.setAttribute('aria-label', 'Open workshop worksheets');
+        worksheetsBtn.title = 'Open worksheet index';
+      }
     }
 
     function nextSlide() {
       if (currentSlide < totalSlides) {
-        sections[currentSlide].scrollIntoView({ behavior: 'smooth' });
+        goToSlide(currentSlide + 1, true);
       }
     }
 
     function prevSlide() {
       if (currentSlide > 1) {
-        sections[currentSlide - 2].scrollIntoView({ behavior: 'smooth' });
+        goToSlide(currentSlide - 1, true);
       }
     }
 
@@ -1158,8 +1255,19 @@
       }
     });
 
+    function applyHashSlide(smooth = false) {
+      const match = window.location.hash.match(/^#slide-(\d+)$/i);
+      if (match) {
+        goToSlide(parseInt(match[1], 10), smooth);
+      }
+    }
+
+    window.addEventListener('hashchange', () => applyHashSlide(true));
+
     // Initialize UI
     updateUI();
+    // Handle deep links like index.html#slide-6
+    applyHashSlide(false);
   </script>
 
 </body>
