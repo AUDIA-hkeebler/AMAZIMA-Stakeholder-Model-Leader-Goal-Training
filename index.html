@@ -51,8 +51,6 @@
     html, body {
       height: 100%;
       width: 100%;
-      scroll-snap-type: y mandatory;
-      scroll-behavior: smooth;
     }
 
     body {
@@ -61,13 +59,31 @@
       font-family: 'Gotham Book', 'Avenir Next', 'Trebuchet MS', sans-serif;
       font-size: 16px;
       line-height: 1.6;
-      overflow-x: hidden;
+      overflow: hidden;
+    }
+
+    #deck {
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    #deck::-webkit-scrollbar {
+      display: none;
     }
 
     /* Slide Base Styles */
     section {
       height: 100vh;
-      width: 100%;
+      width: 100vw;
+      min-width: 100vw;
       scroll-snap-align: start;
       display: flex;
       flex-direction: column;
@@ -393,6 +409,45 @@
       line-height: 1.5;
     }
 
+    .slide-7-tight .tip,
+    .slide-8-tight .tip,
+    .slide-12-tight .tip {
+      margin: 10px 0 6px;
+      padding: 12px 16px;
+      font-size: 13px;
+    }
+
+    .slide-7-tight .key-takeaway,
+    .slide-8-tight .key-takeaway,
+    .slide-12-tight .key-takeaway {
+      margin-top: 6px;
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .slide-7-tight .facilitator-note,
+    .slide-12-tight .facilitator-note,
+    .slide-3-tight .facilitator-note,
+    .slide-6-tight .facilitator-note {
+      margin-top: 14px;
+      padding-top: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .slide-8-tight .facilitator-note {
+      margin-top: 12px;
+      padding-top: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .slide-12-tight .grid-2 {
+      margin-bottom: 14px;
+      gap: 18px;
+    }
+
     /* Grids */
     .grid-2 {
       display: grid;
@@ -536,6 +591,10 @@
         transition: none !important;
         animation: none !important;
       }
+
+      #deck {
+        scroll-behavior: auto;
+      }
     }
 
     /* Utility Classes */
@@ -637,6 +696,8 @@
   <!-- Progress Bar -->
   <div class="progress-bar" id="progress-bar"></div>
 
+  <div id="deck">
+
   <!-- SLIDE 1: Workshop Launch -->
   <section class="slide hero">
     <div class="section-label">Slide 01 / Workshop Launch</div>
@@ -662,7 +723,7 @@
   </section>
 
   <!-- SLIDE 2: Foundation -->
-  <section class="slide content slide-practice">
+  <section class="slide content">
     <div class="section-label">Slide 02 / Foundation</div>
     <h2>Why Most Review Systems Fail</h2>
 
@@ -695,7 +756,7 @@
   </section>
 
   <!-- SLIDE 3: Standard -->
-  <section class="slide content">
+  <section class="slide content slide-3-tight">
     <div class="section-label">Slide 03 / Standard</div>
     <h2>The Objective Standard</h2>
     <p class="subtitle">Use the criteria below as guidelines when writing supporting objectives.</p>
@@ -761,7 +822,7 @@
   </section>
 
   <!-- SLIDE 5: Practice -->
-  <section class="slide content">
+  <section class="slide content slide-practice">
     <div class="section-label">Slide 05 / Practice</div>
     <h2>Objectives Practice</h2>
     <p class="subtitle">Pick two statements and rewrite them using a number, sprint timeline, and clear evidence.</p>
@@ -784,7 +845,7 @@
   </section>
 
   <!-- SLIDE 6: Primary Objective 1 - NSD -->
-  <section class="slide content">
+  <section class="slide content slide-6-tight">
     <div class="section-label">Slide 06 / Primary Objective 1</div>
     <h2>New Skill Development</h2>
 
@@ -814,7 +875,7 @@
   </section>
 
   <!-- SLIDE 7: Primary Objective 2 - Mastery -->
-  <section class="slide content">
+  <section class="slide content slide-7-tight">
     <div class="section-label">Slide 07 / Primary Objective 2</div>
     <h2>Mastery of Existing Skills</h2>
 
@@ -844,7 +905,7 @@
   </section>
 
   <!-- SLIDE 8: Primary Objective 3 - C&C -->
-  <section class="slide content">
+  <section class="slide content slide-8-tight">
     <div class="section-label">Slide 08 / Primary Objective 3</div>
     <h2>Culture &amp; Character | <span class="accent-script">THE AMAZIMA WAY!</span></h2>
 
@@ -950,7 +1011,7 @@
   </section>
 
   <!-- SLIDE 12: Monthly Rhythm -->
-  <section class="slide content">
+  <section class="slide content slide-12-tight">
     <div class="section-label">Slide 12 / Monthly Rhythm</div>
     <h2>Monthly 1-10 Scoring + Check-In Calibration</h2>
 
@@ -1029,8 +1090,12 @@
     <div class="key-takeaway"><strong>Key Takeaway:</strong> Consistent execution in the first 60 days determines long-term adoption quality.</div>
   </section>
 
+  </div>
+
   <script>
-    const totalSlides = document.querySelectorAll('section').length;
+    const deck = document.getElementById('deck');
+    const sections = Array.from(deck.querySelectorAll('section'));
+    const totalSlides = sections.length;
     let currentSlide = 1;
 
     // Set total slides
@@ -1040,14 +1105,14 @@
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          const slideIndex = Array.from(document.querySelectorAll('section')).indexOf(entry.target) + 1;
+          const slideIndex = sections.indexOf(entry.target) + 1;
           currentSlide = slideIndex;
           updateUI();
         }
       });
-    }, { threshold: 0.5 });
+    }, { root: deck, threshold: 0.6 });
 
-    document.querySelectorAll('section').forEach(section => {
+    sections.forEach(section => {
       observer.observe(section);
     });
 
@@ -1066,17 +1131,23 @@
 
     function nextSlide() {
       if (currentSlide < totalSlides) {
-        const sections = document.querySelectorAll('section');
         sections[currentSlide].scrollIntoView({ behavior: 'smooth' });
       }
     }
 
     function prevSlide() {
       if (currentSlide > 1) {
-        const sections = document.querySelectorAll('section');
         sections[currentSlide - 2].scrollIntoView({ behavior: 'smooth' });
       }
     }
+
+    // Mouse-wheel support for horizontal deck navigation
+    deck.addEventListener('wheel', (e) => {
+      if (Math.abs(e.deltaY) > Math.abs(e.deltaX)) {
+        e.preventDefault();
+        deck.scrollLeft += e.deltaY;
+      }
+    }, { passive: false });
 
     // Keyboard support
     document.addEventListener('keydown', (e) => {
