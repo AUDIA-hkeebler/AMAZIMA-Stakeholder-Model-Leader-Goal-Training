@@ -196,57 +196,6 @@
       opacity: 0.8;
     }
 
-    .worksheets-btn {
-      position: fixed;
-      top: 24px;
-      right: 140px;
-      z-index: 100;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 14px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 200, 68, 0.9);
-      background: rgba(8, 18, 36, 0.78);
-      color: var(--gold);
-      font-family: 'Gotham Bold', 'Avenir Next', sans-serif;
-      font-weight: 800;
-      font-size: 11px;
-      letter-spacing: 0.9px;
-      text-transform: uppercase;
-      text-decoration: none;
-      transition: transform 0.22s ease, background-color 0.22s ease, color 0.22s ease, box-shadow 0.22s ease;
-      backdrop-filter: blur(4px);
-      opacity: 0;
-      pointer-events: none;
-      visibility: hidden;
-    }
-
-    .worksheets-btn:hover {
-      background: var(--gold);
-      color: var(--navy-900);
-      transform: translateY(-1px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-    }
-
-    .worksheets-btn:focus-visible {
-      outline: 3px solid rgba(255, 255, 255, 0.95);
-      outline-offset: 3px;
-      box-shadow: 0 0 0 4px rgba(255, 200, 68, 0.45);
-    }
-
-    .worksheets-btn.is-index {
-      border-color: rgba(255, 255, 255, 0.55);
-      color: #ffffff;
-      background: rgba(8, 18, 36, 0.62);
-    }
-
-    .worksheets-btn.is-visible {
-      opacity: 1;
-      pointer-events: auto;
-      visibility: visible;
-    }
-
     /* Section Label */
     .section-label {
       font-size: 11px;
@@ -637,12 +586,6 @@
         right: 20px;
       }
 
-      .worksheets-btn {
-        top: 14px;
-        right: 120px;
-        padding: 7px 10px;
-        font-size: 10px;
-      }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -749,8 +692,6 @@
   <div class="slide-counter">
     <span id="current-slide">1</span> / <span id="total-slides">14</span>
   </div>
-
-  <a class="worksheets-btn" id="worksheets-btn" href="./worksheets/" aria-label="Open workshop worksheets">Worksheet</a>
 
   <!-- Navigation Controls -->
   <div class="nav-controls">
@@ -1028,30 +969,9 @@
     <div class="facilitator-note">Facilitator prompt: Have each group present one objective and quickly test it for number, timeline, and evidence before feedback.</div>
   </section>
 
-  <!-- SLIDE 10: Strategic Actions -->
+  <!-- SLIDE 10: Quality Guidelines -->
   <section class="slide content">
-    <div class="section-label">Slide 10 / Strategic Actions</div>
-    <h2>What a Strategic Action Looks Like</h2>
-    <p class="subtitle">Strategic actions are monthly actions that move an objective forward and can be verified.</p>
-
-    <div class="card">
-      <p style="font-style: italic;">This month, I did <span class="formula-part">[action + quantity]</span>, evidenced by <span class="formula-part">[artifact]</span>, to support <span class="formula-part">[progress toward this specific supporting objective]</span>.</p>
-    </div>
-
-    <div class="card">
-      <h3>Worked Strategic Action Example</h3>
-      <p>This month, I submitted 12 weekly check-in reports with 100% on-time delivery, evidenced by the submission log, to support reporting accuracy and leadership visibility.</p>
-    </div>
-
-    <div class="tip">Strategic actions evolve monthly through coaching; they do not need to be fully pre-planned on day one.</div>
-    <div class="key-takeaway"><strong>Key Takeaway:</strong> Objective stays stable for the sprint, while strategic actions adapt month by month.</div>
-
-    <div class="facilitator-note">Facilitator prompt: "Can someone outside this team verify completion from the evidence alone?" If not, adjust the action statement until proof is obvious.</div>
-  </section>
-
-  <!-- SLIDE 11: Quality Guidelines -->
-  <section class="slide content">
-    <div class="section-label">Slide 11 / Quality Guidelines</div>
+    <div class="section-label">Slide 10 / Quality Guidelines</div>
     <h2>Quality Guidelines for Supporting Objectives</h2>
 
     <div class="check-grid">
@@ -1073,6 +993,27 @@
     <div class="key-takeaway"><strong>Key Takeaway:</strong> Peer review improves objective quality before check-ins begin.</div>
 
     <div class="facilitator-note">Facilitator prompt: "Any supporting objective that cannot be evidenced is not ready."</div>
+  </section>
+
+  <!-- SLIDE 11: Strategic Actions -->
+  <section class="slide content">
+    <div class="section-label">Slide 11 / Strategic Actions</div>
+    <h2>What a Strategic Action Looks Like</h2>
+    <p class="subtitle">Strategic actions are monthly actions that move an objective forward and can be verified.</p>
+
+    <div class="card">
+      <p style="font-style: italic;">This month, I did <span class="formula-part">[action + quantity]</span>, evidenced by <span class="formula-part">[artifact]</span>, to support <span class="formula-part">[progress toward this specific supporting objective]</span>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Worked Strategic Action Example</h3>
+      <p>This month, I submitted 12 weekly check-in reports with 100% on-time delivery, evidenced by the submission log, to support reporting accuracy and leadership visibility.</p>
+    </div>
+
+    <div class="tip">Strategic actions evolve monthly through coaching; they do not need to be fully pre-planned on day one.</div>
+    <div class="key-takeaway"><strong>Key Takeaway:</strong> Objective stays stable for the sprint, while strategic actions adapt month by month.</div>
+
+    <div class="facilitator-note">Facilitator prompt: "Can someone outside this team verify completion from the evidence alone?" If not, adjust the action statement until proof is obvious.</div>
   </section>
 
   <!-- SLIDE 12: Monthly Rhythm -->
@@ -1161,15 +1102,8 @@
   <script>
     const deck = document.getElementById('deck');
     const sections = Array.from(deck.querySelectorAll('section'));
-    const worksheetsBtn = document.getElementById('worksheets-btn');
     const totalSlides = sections.length;
     let currentSlide = 1;
-    const worksheetMap = {
-      5: './worksheets/slide-05-objectives-practice-worksheet.html',
-      9: './worksheets/slide-09-group-objective-design-worksheet.html',
-      11: './worksheets/slide-11-peer-review-worksheet.html',
-      12: './worksheets/slide-12-scoring-calibration-worksheet.html'
-    };
 
     // Set total slides
     document.getElementById('total-slides').textContent = totalSlides;
@@ -1206,24 +1140,6 @@
       // Update button states
       document.getElementById('prev-btn').disabled = currentSlide === 1;
       document.getElementById('next-btn').disabled = currentSlide === totalSlides;
-
-      // Update worksheet button to match current slide activity
-      const worksheetHref = worksheetMap[currentSlide];
-      if (worksheetHref) {
-        worksheetsBtn.href = worksheetHref;
-        worksheetsBtn.textContent = 'Worksheet';
-        worksheetsBtn.classList.remove('is-index');
-        worksheetsBtn.classList.add('is-visible');
-        worksheetsBtn.setAttribute('aria-label', `Open worksheet for slide ${currentSlide}`);
-        worksheetsBtn.title = `Open worksheet for slide ${currentSlide}`;
-      } else {
-        worksheetsBtn.href = './worksheets/';
-        worksheetsBtn.textContent = 'Worksheet';
-        worksheetsBtn.classList.remove('is-index');
-        worksheetsBtn.classList.remove('is-visible');
-        worksheetsBtn.setAttribute('aria-label', 'Open workshop worksheets');
-        worksheetsBtn.title = 'Open worksheet index';
-      }
     }
 
     function nextSlide() {
